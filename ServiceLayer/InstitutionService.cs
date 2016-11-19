@@ -7,7 +7,7 @@ using DAL;
 
 namespace ServiceLayer
 {
-    class InstitutionService
+    public class InstitutionService
     {
         MediNoteEntities InstitutionContext = new MediNoteEntities();
 

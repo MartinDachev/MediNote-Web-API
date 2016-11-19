@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ServiceLayer;
 
 namespace MediNote.Controllers
 {
@@ -14,5 +15,15 @@ namespace MediNote.Controllers
 
             return View();
         }
+
+
+        //[Route(“student /{studentID}”)]
+        public ActionResult GetStudentByID(int studentID)
+        {
+            StudentService objStudent = new StudentService();
+            StudentDTO returnedStudent = objStudent.GetStudentByID(studentID);
+            return View(returnedStudent);
+        }
+
     }
 }
