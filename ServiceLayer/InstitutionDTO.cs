@@ -8,6 +8,7 @@ namespace ServiceLayer
 {
     public class InstitutionDTO
     {
+        public int Id { get; set; }
         public string InstitutionName { get; set; }
     }
 }

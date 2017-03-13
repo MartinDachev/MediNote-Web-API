@@ -1,0 +1,10 @@
+MediNote Azure Database - for connection through Management Studio 
+(You have to add your IP as a rule in Azure Server Firewall first)
+Server: medinote.database.windows.net
+Server admin login: medinote_acc1
+Password: MartinDimitar681
+
+
+Microsoft Azure Account:
+Email: medinote_acc1@hotmail.com
+Password: MartinDimitar

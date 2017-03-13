@@ -10,14 +10,16 @@
 namespace DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class spGetDoctorByNIN1_Result
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int ID { get; set; }
+        public string DoctorName { get; set; }
+        public string DoctorPosition { get; set; }
+        public string DoctorUIN { get; set; }
+        public int HealthcareFacilityId { get; set; }
+        public string DoctorEmail { get; set; }
+        public string DoctorPhoneNumber { get; set; }
+        public string DoctorNIN { get; set; }
     }
 }

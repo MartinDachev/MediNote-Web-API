@@ -21,13 +21,39 @@ namespace ServiceLayer
         public StudentDTO GetStudentByID(int studentID)
         {
             var returnedStudent = StudentContext.student_table.Find(studentID);
-            StudentDTO objDto = new StudentDTO();
-            objDto.StudentAddress = returnedStudent.StudentAddress;
-            objDto.StudentAge = returnedStudent.StudentAge;
-            objDto.StudentName = returnedStudent.StudentName;
-            objDto.StudentNIN = returnedStudent.StudentNIN;
 
-            return objDto;
+            if (returnedStudent == null)
+            {
+                return null;
+            }
+
+            StudentDTO studentDTO = new StudentDTO();
+            studentDTO.StudentAddress = returnedStudent.StudentAddress;
+            studentDTO.StudentAge = returnedStudent.StudentAge;
+            studentDTO.StudentName = returnedStudent.StudentName;
+            studentDTO.StudentNIN = returnedStudent.StudentNIN;
+            studentDTO.Id = returnedStudent.ID;
+
+            return studentDTO;
+        }
+
+        public StudentDTO GetStudentByNIN(string studentNIN)
+        {
+            var returnedStudent = StudentContext.spGetStudentByNIN(studentNIN).FirstOrDefault();
+
+            if (returnedStudent == null)
+            {
+                return null;
+            }
+
+            StudentDTO studentDTO = new StudentDTO();
+            studentDTO.StudentAddress = returnedStudent.StudentAddress;
+            studentDTO.StudentAge = returnedStudent.StudentAge;
+            studentDTO.StudentName = returnedStudent.StudentName;
+            studentDTO.StudentNIN = returnedStudent.StudentNIN;
+            studentDTO.Id = returnedStudent.ID;
+
+            return studentDTO;
         }
 
         public void DeleteStudentByID(int studentID)

@@ -55,6 +55,21 @@
     <Compile Include="doctors_table.cs">
       <DependentUpon>MediNoteModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetDoctorByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetHealthcareFacilitieByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetInstitutionByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetMedicalNoteByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetStudentByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="healthcareFacilities_table.cs">
       <DependentUpon>MediNoteModel.tt</DependentUpon>
     </Compile>
@@ -80,6 +95,57 @@
       <DependentUpon>MediNoteModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="spGetAllMedicalNotesByMEN_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAllMedicalNotesByNIN1_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAllMedicalNotesByNIN2_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetAllMedicalNotesByNIN_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDoctorByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDoctorByNIN1_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetDoctorByNIN_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetHealthcareFacilitieByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetHealthcareFacilitieByName_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetInstitutionByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetInstitutionByName_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetMedicalNoteByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetMedicalNoteByMEN_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetStudentByID_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetStudentByNIN1_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spGetStudentByNIN_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spTest_Result.cs">
+      <DependentUpon>MediNoteModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>MediNoteModel.tt</DependentUpon>
     </Compile>
@@ -87,9 +153,6 @@
       <DependentUpon>MediNoteModel.tt</DependentUpon>
     </Compile>
     <Compile Include="student_table.cs">
-      <DependentUpon>MediNoteModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
       <DependentUpon>MediNoteModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

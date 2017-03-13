@@ -50,16 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DoctorDTO.cs" />
+    <Compile Include="DoctorRegistrationDTO.cs" />
     <Compile Include="DoctorsService.cs" />
     <Compile Include="HealthCareFacilitesDTO.cs" />
     <Compile Include="HealthCareFacilitiesService.cs" />
     <Compile Include="InstitutionDTO.cs" />
     <Compile Include="InstitutionService.cs" />
+    <Compile Include="MedicalNoteBasicDTO.cs" />
     <Compile Include="MedicalNoteDTO.cs" />
     <Compile Include="MedicalNoteService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StudentDTO.cs" />
     <Compile Include="StudentService.cs" />
+    <Compile Include="UserModel.cs" />
+    <Compile Include="ValidationAttributes\NINAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

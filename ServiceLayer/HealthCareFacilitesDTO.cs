@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    class HealthCareFacilitesDTO
+    public class HealthCareFacilitesDTO
     {
+        public int Id { get; set; }
+
+        public string FacilityName { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace DAL
         public virtual DbSet<institution_table> institution_table { get; set; }
         public virtual DbSet<medicalNote_table> medicalNote_table { get; set; }
         public virtual DbSet<student_table> student_table { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -482,7 +481,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddMedicalNote", doctorIDParameter, studentIDParameter, institutionIDParameter, mENParameter, visitDateParameter, diagnoseParameter, needsParameter);
         }
     
-        public virtual int spAddNewDoctor(string doctorName, string doctorPosition, string doctorUIN, Nullable<int> healthcareFacilityId, string doctorEmail, string doctorPhoneNumber)
+        public virtual int spAddNewDoctor(string doctorName, string doctorPosition, string doctorUIN, Nullable<int> healthcareFacilityId, string doctorEmail, string doctorPhoneNumber, string doctorNIN)
         {
             var doctorNameParameter = doctorName != null ?
                 new ObjectParameter("DoctorName", doctorName) :
@@ -508,7 +507,11 @@ namespace DAL
                 new ObjectParameter("DoctorPhoneNumber", doctorPhoneNumber) :
                 new ObjectParameter("DoctorPhoneNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddNewDoctor", doctorNameParameter, doctorPositionParameter, doctorUINParameter, healthcareFacilityIdParameter, doctorEmailParameter, doctorPhoneNumberParameter);
+            var doctorNINParameter = doctorNIN != null ?
+                new ObjectParameter("DoctorNIN", doctorNIN) :
+                new ObjectParameter("DoctorNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spAddNewDoctor", doctorNameParameter, doctorPositionParameter, doctorUINParameter, healthcareFacilityIdParameter, doctorEmailParameter, doctorPhoneNumberParameter, doctorNINParameter);
         }
     
         public virtual int spAddNewHealthcareFacilitie(string facilityName)
@@ -622,7 +625,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetStudentByID_Result>("spGetStudentByID", studentIDParameter);
         }
     
-        public virtual int spUpdateDoctorByID(Nullable<int> doctorID, string doctorName, string doctorPosition, string doctorUIN, Nullable<int> healthcareFacilityId, string doctorEmail, string doctorPhoneNumber)
+        public virtual int spUpdateDoctorByID(Nullable<int> doctorID, string doctorName, string doctorPosition, string doctorUIN, Nullable<int> healthcareFacilityId, string doctorEmail, string doctorPhoneNumber, string doctorNIN)
         {
             var doctorIDParameter = doctorID.HasValue ?
                 new ObjectParameter("DoctorID", doctorID) :
@@ -652,7 +655,11 @@ namespace DAL
                 new ObjectParameter("DoctorPhoneNumber", doctorPhoneNumber) :
                 new ObjectParameter("DoctorPhoneNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUpdateDoctorByID", doctorIDParameter, doctorNameParameter, doctorPositionParameter, doctorUINParameter, healthcareFacilityIdParameter, doctorEmailParameter, doctorPhoneNumberParameter);
+            var doctorNINParameter = doctorNIN != null ?
+                new ObjectParameter("DoctorNIN", doctorNIN) :
+                new ObjectParameter("DoctorNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUpdateDoctorByID", doctorIDParameter, doctorNameParameter, doctorPositionParameter, doctorUINParameter, healthcareFacilityIdParameter, doctorEmailParameter, doctorPhoneNumberParameter, doctorNINParameter);
         }
     
         public virtual int spUpdateHealthcareFacilitieByID(Nullable<int> facilityID, string facilityName)
@@ -741,6 +748,114 @@ namespace DAL
                 new ObjectParameter("StudentAge", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spUpdateStudent", studentIDParameter, studentNINParameter, studentNameParameter, studentAddressParameter, studentAgeParameter);
+        }
+    
+        public virtual ObjectResult<spGetDoctorByNIN_Result> spGetDoctorByNIN(string doctorNIN)
+        {
+            var doctorNINParameter = doctorNIN != null ?
+                new ObjectParameter("DoctorNIN", doctorNIN) :
+                new ObjectParameter("DoctorNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetDoctorByNIN_Result>("spGetDoctorByNIN", doctorNINParameter);
+        }
+    
+        public virtual ObjectResult<spGetMedicalNoteByMEN_Result> spGetMedicalNoteByMEN(string medicalNoteMEN)
+        {
+            var medicalNoteMENParameter = medicalNoteMEN != null ?
+                new ObjectParameter("MedicalNoteMEN", medicalNoteMEN) :
+                new ObjectParameter("MedicalNoteMEN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetMedicalNoteByMEN_Result>("spGetMedicalNoteByMEN", medicalNoteMENParameter);
+        }
+    
+        public virtual ObjectResult<spGetStudentByNIN_Result> spGetStudentByNIN(string studentNIN)
+        {
+            var studentNINParameter = studentNIN != null ?
+                new ObjectParameter("StudentNIN", studentNIN) :
+                new ObjectParameter("StudentNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetStudentByNIN_Result>("spGetStudentByNIN", studentNINParameter);
+        }
+    
+        public virtual ObjectResult<spGetStudentByNIN1_Result> spGetStudentByNIN1(string studentNIN)
+        {
+            var studentNINParameter = studentNIN != null ?
+                new ObjectParameter("StudentNIN", studentNIN) :
+                new ObjectParameter("StudentNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetStudentByNIN1_Result>("spGetStudentByNIN1", studentNINParameter);
+        }
+    
+        public virtual ObjectResult<spTest_Result> spTest(string studentNIN)
+        {
+            var studentNINParameter = studentNIN != null ?
+                new ObjectParameter("StudentNIN", studentNIN) :
+                new ObjectParameter("StudentNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spTest_Result>("spTest", studentNINParameter);
+        }
+    
+        public virtual ObjectResult<spGetDoctorByNIN1_Result> spGetDoctorByNIN1(string doctorNIN)
+        {
+            var doctorNINParameter = doctorNIN != null ?
+                new ObjectParameter("DoctorNIN", doctorNIN) :
+                new ObjectParameter("DoctorNIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetDoctorByNIN1_Result>("spGetDoctorByNIN1", doctorNINParameter);
+        }
+    
+        public virtual ObjectResult<spGetAllMedicalNotesByMEN_Result> spGetAllMedicalNotesByMEN(string mEN)
+        {
+            var mENParameter = mEN != null ?
+                new ObjectParameter("MEN", mEN) :
+                new ObjectParameter("MEN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllMedicalNotesByMEN_Result>("spGetAllMedicalNotesByMEN", mENParameter);
+        }
+    
+        public virtual ObjectResult<spGetAllMedicalNotesByNIN_Result> spGetAllMedicalNotesByNIN(string nIN)
+        {
+            var nINParameter = nIN != null ?
+                new ObjectParameter("NIN", nIN) :
+                new ObjectParameter("NIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllMedicalNotesByNIN_Result>("spGetAllMedicalNotesByNIN", nINParameter);
+        }
+    
+        public virtual ObjectResult<spGetAllMedicalNotesByNIN1_Result> spGetAllMedicalNotesByNIN1(string mEN)
+        {
+            var mENParameter = mEN != null ?
+                new ObjectParameter("MEN", mEN) :
+                new ObjectParameter("MEN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllMedicalNotesByNIN1_Result>("spGetAllMedicalNotesByNIN1", mENParameter);
+        }
+    
+        public virtual ObjectResult<spGetAllMedicalNotesByNIN2_Result> spGetAllMedicalNotesByNIN2(string nIN)
+        {
+            var nINParameter = nIN != null ?
+                new ObjectParameter("NIN", nIN) :
+                new ObjectParameter("NIN", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllMedicalNotesByNIN2_Result>("spGetAllMedicalNotesByNIN2", nINParameter);
+        }
+    
+        public virtual ObjectResult<spGetInstitutionByName_Result> spGetInstitutionByName(string institutionName)
+        {
+            var institutionNameParameter = institutionName != null ?
+                new ObjectParameter("InstitutionName", institutionName) :
+                new ObjectParameter("InstitutionName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetInstitutionByName_Result>("spGetInstitutionByName", institutionNameParameter);
+        }
+    
+        public virtual ObjectResult<spGetHealthcareFacilitieByName_Result> spGetHealthcareFacilitieByName(string facilityName)
+        {
+            var facilityNameParameter = facilityName != null ?
+                new ObjectParameter("facilityName", facilityName) :
+                new ObjectParameter("facilityName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetHealthcareFacilitieByName_Result>("spGetHealthcareFacilitieByName", facilityNameParameter);
         }
     }
 }

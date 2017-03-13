@@ -16,6 +16,8 @@ namespace MediNote.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public int UserTypeId { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

@@ -23,6 +23,18 @@ namespace ServiceLayer
             return returnedFacility.FacilityName;
         }
 
+        public HealthCareFacilitesDTO GetFacilityByName(string name)
+        {
+            var returnedFacility = FacilitesContext.spGetHealthcareFacilitieByName(name)
+                .Select(h => new HealthCareFacilitesDTO()
+                {
+                    Id = h.ID,
+                    FacilityName = h.FacilityName
+                }).FirstOrDefault();
+
+            return returnedFacility;
+        }
+
         public void DeleteFacilityByID(int facilityID)
         {
             FacilitesContext.spDeleteHealthcareFacilitieByID(facilityID);

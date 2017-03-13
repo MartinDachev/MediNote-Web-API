@@ -27,6 +27,7 @@ namespace DAL
         public int HealthcareFacilityId { get; set; }
         public string DoctorEmail { get; set; }
         public string DoctorPhoneNumber { get; set; }
+        public string DoctorNIN { get; set; }
     
         public virtual healthcareFacilities_table healthcareFacilities_table { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\Users\1914\Documents\Visual Studio 2015\Projects\MediNote\DAL\MediNoteModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\WWW\Documents\Visual Studio 2017\Projects\MediNote\DAL\MediNoteModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

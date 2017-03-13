@@ -8,7 +8,7 @@ using DAL;
 
 namespace ServiceLayer
 {
-    public class DoctorsService
+    public class DoctorService
     {
         MediNoteEntities DoctorContext = new MediNoteEntities();
 
@@ -17,20 +17,60 @@ namespace ServiceLayer
             DoctorContext.spAddNewDoctor(newDoctorInfo.DoctorName,
                 newDoctorInfo.DoctorPosition, newDoctorInfo.DoctorUIN,
                 newDoctorInfo.HealthcareFacilityId, newDoctorInfo.DoctorEmail,
-                newDoctorInfo.DoctorPhoneNumber);
+                newDoctorInfo.DoctorPhoneNumber, newDoctorInfo.DoctorNIN);
         }
 
         public DoctorDTO GetDoctorByID(int doctorID)
         {
             var returnedDoctor = DoctorContext.doctors_table.Find(doctorID);
-            DoctorDTO obJDto = new DoctorDTO();
-            obJDto.DoctorEmail = returnedDoctor.DoctorEmail;
-            obJDto.DoctorName = returnedDoctor.DoctorName;
-            obJDto.DoctorPhoneNumber = returnedDoctor.DoctorPhoneNumber;
-            obJDto.DoctorPosition = returnedDoctor.DoctorPosition;
-            obJDto.DoctorUIN = returnedDoctor.DoctorUIN;
 
-            return obJDto;
+            if (returnedDoctor == null)
+            {
+                return null;
+            }
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            doctorDTO.DoctorEmail = returnedDoctor.DoctorEmail;
+            doctorDTO.DoctorName = returnedDoctor.DoctorName;
+            doctorDTO.DoctorPhoneNumber = returnedDoctor.DoctorPhoneNumber;
+            doctorDTO.DoctorPosition = returnedDoctor.DoctorPosition;
+            doctorDTO.DoctorUIN = returnedDoctor.DoctorUIN;
+            doctorDTO.DoctorNIN = returnedDoctor.DoctorNIN;
+            doctorDTO.Id = returnedDoctor.ID;
+            doctorDTO.HealthcareFacilityId = returnedDoctor.HealthcareFacilityId;
+
+            var healthCareFacilitiesService = new HealthCareFacilitiesService();
+            var facility = healthCareFacilitiesService.GetFacilityByID(returnedDoctor.HealthcareFacilityId);
+
+            doctorDTO.HealthcareFacilityName = facility;
+            return doctorDTO;
+        }
+
+        public DoctorDTO GetDoctorByNIN(string doctorNIN)
+        {
+            var returnedDoctor = DoctorContext.spGetDoctorByNIN(doctorNIN).FirstOrDefault();
+
+            if (returnedDoctor == null)
+            {
+                return null;
+            }
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            doctorDTO.DoctorEmail = returnedDoctor.DoctorEmail;
+            doctorDTO.DoctorName = returnedDoctor.DoctorName;
+            doctorDTO.DoctorPhoneNumber = returnedDoctor.DoctorPhoneNumber;
+            doctorDTO.DoctorPosition = returnedDoctor.DoctorPosition;
+            doctorDTO.DoctorUIN = returnedDoctor.DoctorUIN;
+            doctorDTO.DoctorNIN = returnedDoctor.DoctorNIN;
+            doctorDTO.Id = returnedDoctor.ID;
+            doctorDTO.HealthcareFacilityId = returnedDoctor.HealthcareFacilityId;
+
+            var healthCareFacilitiesService = new HealthCareFacilitiesService();
+            var facility = healthCareFacilitiesService.GetFacilityByID(returnedDoctor.HealthcareFacilityId);
+
+            doctorDTO.HealthcareFacilityName = facility;
+
+            return doctorDTO;
         }
 
         public void DeleteDoctorByID(int doctorID)
@@ -44,7 +84,7 @@ namespace ServiceLayer
 
             DoctorContext.spUpdateDoctorByID(doctorID, updateDoctorInfo.DoctorName, updateDoctorInfo.DoctorPosition,
                 updateDoctorInfo.DoctorUIN, updateDoctorInfo.HealthcareFacilityId,
-                updateDoctorInfo.DoctorEmail, updateDoctorInfo.DoctorPhoneNumber);
+                updateDoctorInfo.DoctorEmail, updateDoctorInfo.DoctorPhoneNumber, updateDoctorInfo.DoctorNIN);
         }
 
     }

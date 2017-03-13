@@ -19,7 +19,24 @@ namespace ServiceLayer
         public string GetInstitutionByID(int institutionID)
         {
             var returnedInstitution = InstitutionContext.institution_table.Find(institutionID);
+            if (returnedInstitution == null)
+            {
+                return null;
+            }
             return returnedInstitution.InstitutionName;
+        }
+
+        public InstitutionDTO GetInstitutionByName(string name)
+        {
+            var returnedInstituion = InstitutionContext.spGetInstitutionByName(name);
+            var institutionDTO = returnedInstituion
+                .Select(i => new InstitutionDTO
+                {
+                    Id = i.ID,
+                    InstitutionName = i.InstitutionName
+                })
+                .FirstOrDefault();
+            return institutionDTO;
         }
 
         public void DeleteInstitutionByID(int institutionID)

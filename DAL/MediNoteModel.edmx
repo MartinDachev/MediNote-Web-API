@@ -10,18 +10,19 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DoctorName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="DoctorPosition" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="DoctorUIN" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DoctorName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DoctorPosition" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DoctorUIN" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HealthcareFacilityId" Type="int" Nullable="false" />
           <Property Name="DoctorEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DoctorPhoneNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="DoctorNIN" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="healthcareFacilities_table">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FacilityName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="institution_table">
@@ -53,16 +54,6 @@
           <Property Name="StudentName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="StudentAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StudentAge" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Doctor_HealthcareFacilities">
           <End Role="healthcareFacilities_table" Type="Self.healthcareFacilities_table" Multiplicity="1" />
@@ -112,64 +103,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spAddInstitution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="InstitutionName" Type="varchar" Mode="In" />
+          <Parameter Name="InstitutionName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spAddMedicalNote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DoctorID" Type="int" Mode="In" />
           <Parameter Name="StudentID" Type="int" Mode="In" />
           <Parameter Name="InstitutionID" Type="int" Mode="In" />
-          <Parameter Name="MEN" Type="varchar" Mode="In" />
+          <Parameter Name="MEN" Type="nvarchar" Mode="In" />
           <Parameter Name="VisitDate" Type="datetime" Mode="In" />
-          <Parameter Name="Diagnose" Type="varchar" Mode="In" />
-          <Parameter Name="Needs" Type="varchar" Mode="In" />
+          <Parameter Name="Diagnose" Type="nvarchar" Mode="In" />
+          <Parameter Name="Needs" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spAddNewDoctor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="DoctorName" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorPosition" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorUIN" Type="varchar" Mode="In" />
+          <Parameter Name="DoctorName" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorPosition" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorUIN" Type="nvarchar" Mode="In" />
           <Parameter Name="HealthcareFacilityId" Type="int" Mode="In" />
-          <Parameter Name="DoctorEmail" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorPhoneNumber" Type="varchar" Mode="In" />
+          <Parameter Name="DoctorEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorPhoneNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorNIN" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spAddNewHealthcareFacilitie" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="FacilityName" Type="varchar" Mode="In" />
+          <Parameter Name="FacilityName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spAddStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="StudentNIN" Type="varchar" Mode="In" />
-          <Parameter Name="StudentName" Type="varchar" Mode="In" />
-          <Parameter Name="StudentAddress" Type="varchar" Mode="In" />
+          <Parameter Name="StudentNIN" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudentName" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudentAddress" Type="nvarchar" Mode="In" />
           <Parameter Name="StudentAge" Type="int" Mode="In" />
         </Function>
         <Function Name="spDeleteDoctorByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -184,53 +145,75 @@
         <Function Name="spDeleteStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StudentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="spGetAllMedicalNotesByNIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NIN" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spGetDoctorByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DoctorID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetDoctorByNIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DoctorNIN" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spGetHealthcareFacilitieByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FacilityID" Type="int" Mode="In" />
         </Function>
+        <Function Name="spGetHealthcareFacilitieByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="facilityName" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spGetInstitutionByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InstitutionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spGetInstitutionByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InstitutionName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spGetMedicalNoteByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MedicalNoteID" Type="int" Mode="In" />
         </Function>
+        <Function Name="spGetMedicalNoteByMEN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MedicalNoteMEN" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spGetStudentByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StudentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="spGetStudentByNIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StudentNIN" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StudentNIN" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="spUpdateDoctorByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DoctorID" Type="int" Mode="In" />
-          <Parameter Name="DoctorName" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorPosition" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorUIN" Type="varchar" Mode="In" />
+          <Parameter Name="DoctorName" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorPosition" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorUIN" Type="nvarchar" Mode="In" />
           <Parameter Name="HealthcareFacilityId" Type="int" Mode="In" />
-          <Parameter Name="DoctorEmail" Type="varchar" Mode="In" />
-          <Parameter Name="DoctorPhoneNumber" Type="varchar" Mode="In" />
+          <Parameter Name="DoctorEmail" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorPhoneNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="DoctorNIN" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spUpdateHealthcareFacilitieByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FacilityID" Type="int" Mode="In" />
-          <Parameter Name="FacilityName" Type="varchar" Mode="In" />
+          <Parameter Name="FacilityName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spUpdateInstitution" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InstitutionID" Type="int" Mode="In" />
-          <Parameter Name="InstitutionName" Type="varchar" Mode="In" />
+          <Parameter Name="InstitutionName" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spUpdateMedicalNote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MedicalNoteID" Type="int" Mode="In" />
           <Parameter Name="DoctorID" Type="int" Mode="In" />
           <Parameter Name="StudentID" Type="int" Mode="In" />
           <Parameter Name="InstitutionID" Type="int" Mode="In" />
-          <Parameter Name="MEN" Type="varchar" Mode="In" />
+          <Parameter Name="MEN" Type="nvarchar" Mode="In" />
           <Parameter Name="VisitDate" Type="datetime" Mode="In" />
-          <Parameter Name="Diagnose" Type="varchar" Mode="In" />
-          <Parameter Name="Needs" Type="varchar" Mode="In" />
+          <Parameter Name="Diagnose" Type="nvarchar" Mode="In" />
+          <Parameter Name="Needs" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="spUpdateStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StudentID" Type="int" Mode="In" />
-          <Parameter Name="StudentNIN" Type="varchar" Mode="In" />
-          <Parameter Name="StudentName" Type="varchar" Mode="In" />
-          <Parameter Name="StudentAddress" Type="varchar" Mode="In" />
+          <Parameter Name="StudentNIN" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudentName" Type="nvarchar" Mode="In" />
+          <Parameter Name="StudentAddress" Type="nvarchar" Mode="In" />
           <Parameter Name="StudentAge" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MediNoteModelStoreContainer">
@@ -239,7 +222,6 @@
           <EntitySet Name="institution_table" EntityType="Self.institution_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="medicalNote_table" EntityType="Self.medicalNote_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="student_table" EntityType="Self.student_table" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Doctor_HealthcareFacilities" Association="Self.FK_Doctor_HealthcareFacilities">
             <End Role="healthcareFacilities_table" EntitySet="healthcareFacilities_table" />
             <End Role="doctors_table" EntitySet="doctors_table" />
@@ -266,14 +248,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DoctorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DoctorPosition" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DoctorUIN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DoctorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DoctorPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DoctorUIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HealthcareFacilityId" Type="Int32" Nullable="false" />
           <Property Name="DoctorEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DoctorPhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="healthcareFacilities_table" Relationship="Self.FK_Doctor_HealthcareFacilities" FromRole="doctors_table" ToRole="healthcareFacilities_table" />
           <NavigationProperty Name="medicalNote_table" Relationship="Self.FK_medicalNote_table_doctors_table" FromRole="doctors_table" ToRole="medicalNote_table" />
+          <Property Name="DoctorNIN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="healthcareFacilities_table">
           <Key>
@@ -317,16 +300,6 @@
           <Property Name="StudentAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="StudentAge" Type="Int32" Nullable="false" />
           <NavigationProperty Name="medicalNote_table" Relationship="Self.FK_medicalNote_table_student_table" FromRole="student_table" ToRole="medicalNote_table" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_Doctor_HealthcareFacilities">
           <End Role="healthcareFacilities_table" Type="Self.healthcareFacilities_table" Multiplicity="1" />
@@ -382,7 +355,6 @@
           <EntitySet Name="institution_table" EntityType="Self.institution_table" />
           <EntitySet Name="medicalNote_table" EntityType="Self.medicalNote_table" />
           <EntitySet Name="student_table" EntityType="Self.student_table" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="FK_Doctor_HealthcareFacilities" Association="Self.FK_Doctor_HealthcareFacilities">
             <End Role="healthcareFacilities_table" EntitySet="healthcareFacilities_table" />
             <End Role="doctors_table" EntitySet="doctors_table" />
@@ -520,7 +492,7 @@
             <Parameter Name="StudentAge" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spAddInstitution">
-            <Parameter Name="InstitutionName" Mode="In" Type="String" />
+          <Parameter Name="InstitutionName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spAddMedicalNote">
             <Parameter Name="DoctorID" Mode="In" Type="Int32" />
@@ -538,9 +510,10 @@
             <Parameter Name="HealthcareFacilityId" Mode="In" Type="Int32" />
             <Parameter Name="DoctorEmail" Mode="In" Type="String" />
             <Parameter Name="DoctorPhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="DoctorNIN" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spAddNewHealthcareFacilitie">
-            <Parameter Name="FacilityName" Mode="In" Type="String" />
+          <Parameter Name="FacilityName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spAddStudent">
             <Parameter Name="StudentNIN" Mode="In" Type="String" />
@@ -549,31 +522,31 @@
             <Parameter Name="StudentAge" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spDeleteDoctorByID">
-            <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+          <Parameter Name="DoctorID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spDeleteHealthcareFacilitieByID">
-            <Parameter Name="FacilityID" Mode="In" Type="Int32" />
+          <Parameter Name="FacilityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spDeleteInstitution">
-            <Parameter Name="InstitutionID" Mode="In" Type="Int32" />
+          <Parameter Name="InstitutionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spDeleteStudent">
-            <Parameter Name="StudentID" Mode="In" Type="Int32" />
+          <Parameter Name="StudentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetDoctorByID" ReturnType="Collection(MediNoteModel.spGetDoctorByID_Result)">
-            <Parameter Name="DoctorID" Mode="In" Type="Int32" />
+          <Parameter Name="DoctorID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetHealthcareFacilitieByID" ReturnType="Collection(MediNoteModel.spGetHealthcareFacilitieByID_Result)">
-            <Parameter Name="FacilityID" Mode="In" Type="Int32" />
+          <Parameter Name="FacilityID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetInstitutionByID" ReturnType="Collection(MediNoteModel.spGetInstitutionByID_Result)">
-            <Parameter Name="InstitutionID" Mode="In" Type="Int32" />
+          <Parameter Name="InstitutionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetMedicalNoteByID" ReturnType="Collection(MediNoteModel.spGetMedicalNoteByID_Result)">
-            <Parameter Name="MedicalNoteID" Mode="In" Type="Int32" />
+          <Parameter Name="MedicalNoteID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spGetStudentByID" ReturnType="Collection(MediNoteModel.spGetStudentByID_Result)">
-            <Parameter Name="StudentID" Mode="In" Type="Int32" />
+          <Parameter Name="StudentID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="spUpdateDoctorByID">
             <Parameter Name="DoctorID" Mode="In" Type="Int32" />
@@ -583,6 +556,7 @@
             <Parameter Name="HealthcareFacilityId" Mode="In" Type="Int32" />
             <Parameter Name="DoctorEmail" Mode="In" Type="String" />
             <Parameter Name="DoctorPhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="DoctorNIN" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="spUpdateHealthcareFacilitieByID">
             <Parameter Name="FacilityID" Mode="In" Type="Int32" />
@@ -608,6 +582,42 @@
             <Parameter Name="StudentName" Mode="In" Type="String" />
             <Parameter Name="StudentAddress" Mode="In" Type="String" />
             <Parameter Name="StudentAge" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDoctorByNIN" ReturnType="Collection(MediNoteModel.spGetDoctorByNIN_Result)">
+          <Parameter Name="DoctorNIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetMedicalNoteByMEN" ReturnType="Collection(MediNoteModel.spGetMedicalNoteByMEN_Result)">
+          <Parameter Name="MedicalNoteMEN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetStudentByNIN" ReturnType="Collection(MediNoteModel.spGetStudentByNIN_Result)">
+          <Parameter Name="StudentNIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetStudentByNIN1" ReturnType="Collection(MediNoteModel.spGetStudentByNIN1_Result)">
+          <Parameter Name="StudentNIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spTest" ReturnType="Collection(MediNoteModel.spTest_Result)">
+          <Parameter Name="StudentNIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetDoctorByNIN1" ReturnType="Collection(MediNoteModel.spGetDoctorByNIN1_Result)">
+          <Parameter Name="DoctorNIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetAllMedicalNotesByMEN" ReturnType="Collection(MediNoteModel.spGetAllMedicalNotesByMEN_Result)">
+            <Parameter Name="MEN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetAllMedicalNotesByNIN" ReturnType="Collection(MediNoteModel.spGetAllMedicalNotesByNIN_Result)">
+          <Parameter Name="NIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetAllMedicalNotesByNIN1" ReturnType="Collection(MediNoteModel.spGetAllMedicalNotesByNIN1_Result)">
+            <Parameter Name="MEN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetAllMedicalNotesByNIN2" ReturnType="Collection(MediNoteModel.spGetAllMedicalNotesByNIN2_Result)">
+          <Parameter Name="NIN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetInstitutionByName" ReturnType="Collection(MediNoteModel.spGetInstitutionByName_Result)">
+          <Parameter Name="InstitutionName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spGetHealthcareFacilitieByName" ReturnType="Collection(MediNoteModel.spGetHealthcareFacilitieByName_Result)">
+          <Parameter Name="facilityName" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -689,6 +699,147 @@
           <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
           <Property Type="Int32" Name="StudentAge" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="spGetDoctorByNIN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorUIN" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="DoctorEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPhoneNumber" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="DoctorNIN" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetMedicalNoteByMEN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="InstitutionID" Nullable="false" />
+          <Property Type="String" Name="MEN" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="VisitDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Diagnose" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Needs" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spGetStudentByNIN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="StudentNIN" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spGetStudentByNIN1_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="StudentNIN" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spTest_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="StudentNIN" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spGetDoctorByNIN1_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorUIN" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="DoctorEmail" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPhoneNumber" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="DoctorNIN" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetAllMedicalNotesByMEN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="InstitutionID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+          <Property Type="String" Name="Needs" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InstitutionName1" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="VisitDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Diagnose" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MEN" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetAllMedicalNotesByNIN_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="InstitutionID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+          <Property Type="String" Name="Needs" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="VisitDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Diagnose" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MEN" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetAllMedicalNotesByNIN1_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="InstitutionID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+          <Property Type="String" Name="Needs" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="InstitutionName1" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="VisitDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Diagnose" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MEN" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetAllMedicalNotesByNIN2_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="InstitutionID" Nullable="false" />
+          <Property Type="Int32" Name="DoctorID" Nullable="false" />
+          <Property Type="Int32" Name="StudentID" Nullable="false" />
+          <Property Type="Int32" Name="HealthcareFacilityId" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="StudentName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StudentAddress" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StudentAge" Nullable="false" />
+          <Property Type="String" Name="Needs" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="DoctorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DoctorPosition" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="VisitDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Diagnose" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MEN" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spGetInstitutionByName_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="InstitutionName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="spGetHealthcareFacilitieByName_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FacilityName" Nullable="false" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -698,6 +849,7 @@
           <EntitySetMapping Name="doctors_table">
             <EntityTypeMapping TypeName="MediNoteModel.doctors_table">
               <MappingFragment StoreEntitySet="doctors_table">
+                <ScalarProperty Name="DoctorNIN" ColumnName="DoctorNIN" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
                 <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
@@ -749,41 +901,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MediNoteModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="MediNoteModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="MediNoteModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="MediNoteModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="MediNoteModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MediNoteModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="MediNoteModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MediNoteModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="MediNoteModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="MediNoteModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="spAddInstitution" FunctionName="MediNoteModel.Store.spAddInstitution" />
           <FunctionImportMapping FunctionImportName="spAddMedicalNote" FunctionName="MediNoteModel.Store.spAddMedicalNote" />
           <FunctionImportMapping FunctionImportName="spAddNewDoctor" FunctionName="MediNoteModel.Store.spAddNewDoctor" />
@@ -852,6 +969,149 @@
           <FunctionImportMapping FunctionImportName="spUpdateInstitution" FunctionName="MediNoteModel.Store.spUpdateInstitution" />
           <FunctionImportMapping FunctionImportName="spUpdateMedicalNote" FunctionName="MediNoteModel.Store.spUpdateMedicalNote" />
           <FunctionImportMapping FunctionImportName="spUpdateStudent" FunctionName="MediNoteModel.Store.spUpdateStudent" />
+          <FunctionImportMapping FunctionImportName="spGetMedicalNoteByMEN" FunctionName="MediNoteModel.Store.spGetMedicalNoteByMEN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetMedicalNoteByMEN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="InstitutionID" ColumnName="InstitutionID" />
+                <ScalarProperty Name="MEN" ColumnName="MEN" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Diagnose" ColumnName="Diagnose" />
+                <ScalarProperty Name="Needs" ColumnName="Needs" />
+                <ScalarProperty Name="HealthcareFacilityId" ColumnName="HealthcareFacilityId" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+                <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetStudentByNIN1" FunctionName="MediNoteModel.Store.spGetStudentByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetStudentByNIN1_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentNIN" ColumnName="StudentNIN" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spTest" FunctionName="MediNoteModel.Store.spTest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spTest_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentNIN" ColumnName="StudentNIN" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetStudentByNIN" FunctionName="MediNoteModel.Store.spGetStudentByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetStudentByNIN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentNIN" ColumnName="StudentNIN" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetDoctorByNIN1" FunctionName="MediNoteModel.Store.spGetDoctorByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetDoctorByNIN1_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
+                <ScalarProperty Name="DoctorUIN" ColumnName="DoctorUIN" />
+                <ScalarProperty Name="HealthcareFacilityId" ColumnName="HealthcareFacilityId" />
+                <ScalarProperty Name="DoctorEmail" ColumnName="DoctorEmail" />
+                <ScalarProperty Name="DoctorPhoneNumber" ColumnName="DoctorPhoneNumber" />
+                <ScalarProperty Name="DoctorNIN" ColumnName="DoctorNIN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetDoctorByNIN" FunctionName="MediNoteModel.Store.spGetDoctorByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetDoctorByNIN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
+                <ScalarProperty Name="DoctorUIN" ColumnName="DoctorUIN" />
+                <ScalarProperty Name="HealthcareFacilityId" ColumnName="HealthcareFacilityId" />
+                <ScalarProperty Name="DoctorEmail" ColumnName="DoctorEmail" />
+                <ScalarProperty Name="DoctorPhoneNumber" ColumnName="DoctorPhoneNumber" />
+                <ScalarProperty Name="DoctorNIN" ColumnName="DoctorNIN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllMedicalNotesByNIN2" FunctionName="MediNoteModel.Store.spGetAllMedicalNotesByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetAllMedicalNotesByNIN2_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InstitutionID" ColumnName="InstitutionID" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="HealthcareFacilityId" ColumnName="HealthcareFacilityId" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+                <ScalarProperty Name="Needs" ColumnName="Needs" />
+                <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Diagnose" ColumnName="Diagnose" />
+                <ScalarProperty Name="MEN" ColumnName="MEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllMedicalNotesByNIN" FunctionName="MediNoteModel.Store.spGetAllMedicalNotesByNIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetAllMedicalNotesByNIN_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InstitutionID" ColumnName="InstitutionID" />
+                <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="HealthcareFacilityId" ColumnName="HealthcareFacilityId" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentAddress" ColumnName="StudentAddress" />
+                <ScalarProperty Name="StudentAge" ColumnName="StudentAge" />
+                <ScalarProperty Name="Needs" ColumnName="Needs" />
+                <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="DoctorPosition" ColumnName="DoctorPosition" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="Diagnose" ColumnName="Diagnose" />
+                <ScalarProperty Name="MEN" ColumnName="MEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetInstitutionByName" FunctionName="MediNoteModel.Store.spGetInstitutionByName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetInstitutionByName_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetHealthcareFacilitieByName" FunctionName="MediNoteModel.Store.spGetHealthcareFacilitieByName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MediNoteModel.spGetHealthcareFacilitieByName_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

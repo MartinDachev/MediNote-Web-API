@@ -1,0 +1,3 @@
+AzureDBCreationUSED - this is the SCRIPT used for initializing the Azure DB
+Note that it was used for INITIALIZATION, there might be some inconsistency data-wise between 
+the local DB it creates and the Azure DB

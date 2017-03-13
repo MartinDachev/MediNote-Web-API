@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="MediNoteModel.institution_table" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MediNoteModel.medicalNote_table" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="MediNoteModel.student_table" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MediNoteModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
         <AssociationConnector Association="MediNoteModel.FK_Doctor_HealthcareFacilities" ManuallyRouted="false" />
         <AssociationConnector Association="MediNoteModel.FK_medicalNote_table_doctors_table" ManuallyRouted="false" />
         <AssociationConnector Association="MediNoteModel.FK_medicalNote_table_institution_table" ManuallyRouted="false" />
