@@ -1,4 +1,5 @@
 ﻿using MediNote.Auth;
+using MediNote.Errors;
 using MediNote.Filters;
 using Microsoft.AspNet.Identity;
 using ServiceLayer;
@@ -12,7 +13,7 @@ using System.Web.Http;
 
 namespace MediNote.WebApiControllers
 {
-    [RoutePrefix("api/Account")]
+    [RoutePrefix("api/Accounts")]
     public class AccountsController : BaseApiController
     {
         private AuthRepository authRepository;
@@ -38,6 +39,30 @@ namespace MediNote.WebApiControllers
             }
 
             return Ok();
+        }
+        
+        [HttpGet]
+        [Authorize(Roles = "Admin,Doctor,Student")]
+        [ValidateModel]
+        [Route("GetType")]
+        public async Task<IHttpActionResult> GetAccountType()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return Ok(new { AccountType = "Admin" });
+            }
+
+            if (User.IsInRole("Doctor"))
+            {
+                return Ok(new { AccountType = "Doctor"});
+            }
+
+            if (User.IsInRole("Student"))
+            {
+                return Ok(new { AccountType = "Student" });
+            }
+
+            return BadRequest();
         }
 
         [Authorize(Roles = "Admin")]

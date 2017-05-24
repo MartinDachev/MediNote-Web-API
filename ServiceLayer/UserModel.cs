@@ -10,7 +10,7 @@ namespace ServiceLayer
     public class UserModel
     {
         [Required]
-        public string UserNIN { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity;
 using MediNote.Auth;
 using System.Threading.Tasks;
 using MediNote.Filters;
+using System.Net.Http;
+using MediNote.ErrorCodes;
 
 namespace MediNote.WebApiControllers
 {
@@ -21,14 +23,13 @@ namespace MediNote.WebApiControllers
         {
             if (User.Identity.Name != doctorNIN && !User.IsInRole("Admin"))
             {
-                // TODO: Add message
-                return Unauthorized();
+                return new UnauthorizedWithHttpError(Request, ErrorCode.DoctorsCanOnlyGetTheirInformation);
             }
             
             var doctor = doctorsService.GetDoctorByNIN(doctorNIN);
             if (doctor == null)
             {
-                return new BadRequestWithMessageResult("Doctor not found with this NIN");
+                return new BadRequestWithHttpError(Request, ErrorCode.DoctorNotFoundWithThisNIN);
             }
             return Ok(doctor);
         }
@@ -43,20 +44,20 @@ namespace MediNote.WebApiControllers
         {
             UserModel userModel = new UserModel()
             {
-                UserNIN = doctorInfo.DoctorNIN,
+                Username = doctorInfo.DoctorNIN,
                 Password = doctorInfo.Password
             };
 
             IdentityResult result = await authRepository.RegisterUser(userModel);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
+            IHttpActionResult errorResult = GetErrorResult(result, ErrorCode.AccountAlreadyExistsWithThisNIN);
 
             if (errorResult != null)
             {
                 return errorResult;
             }
 
-            var user = await authRepository.UserManager.FindByNameAsync(userModel.UserNIN);
+            var user = await authRepository.UserManager.FindByNameAsync(userModel.Username);
 
             if (user == null)
             {
@@ -65,7 +66,7 @@ namespace MediNote.WebApiControllers
 
             IdentityResult addRoleResult = await authRepository.UserManager.AddToRoleAsync(user.Id, "Doctor");
 
-            errorResult = GetErrorResult(addRoleResult);
+            errorResult = GetErrorResult(addRoleResult, ErrorCode.DoctorCouldNotBeAddedToRole);
 
             if (errorResult != null)
             {
@@ -81,6 +82,11 @@ namespace MediNote.WebApiControllers
             }
 
             facility = facilityService.GetFacilityByName(doctorInfo.HealthcareFacilityName);
+
+            if (facility == null)
+            {
+                return InternalServerError();
+            }
 
             var doctor = new DoctorDTO()
             {

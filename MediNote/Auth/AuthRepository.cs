@@ -30,7 +30,7 @@ namespace MediNote.Auth
         {
             WebApiUser user = new WebApiUser()
             {
-                UserName = userModel.UserNIN
+                UserName = userModel.Username
             };
 
             var result = await UserManager.CreateAsync(user, userModel.Password);

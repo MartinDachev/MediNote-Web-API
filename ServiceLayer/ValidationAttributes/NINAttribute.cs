@@ -24,6 +24,11 @@ namespace ServiceLayer.ValidationAttributes
                 return ValidationResult.Success;
             }
 
+            if (ErrorMessage == null)
+            {
+                return new ValidationResult(defaultErrorMessage);
+            }
+
             return new ValidationResult(ErrorMessage);
         }
     }

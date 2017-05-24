@@ -1,11 +1,8 @@
-﻿using MediNote.Errors;
+﻿using MediNote.ErrorCodes;
+using MediNote.Errors;
 using MediNote.Filters;
 using ServiceLayer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace MediNote.WebApiControllers
@@ -24,7 +21,7 @@ namespace MediNote.WebApiControllers
 
             if (medicalNote == null)
             {
-                return new BadRequestWithMessageResult("Medical Note not found with this MEN");
+                return new BadRequestWithHttpError(Request, ErrorCode.MedicalNoteNotFoundWithThisMEN);
             }
 
             if (User.IsInRole("Student"))
@@ -34,8 +31,7 @@ namespace MediNote.WebApiControllers
 
                 if (User.Identity.Name != student.StudentNIN)
                 {
-                    // TODO: Add message
-                    return Unauthorized();
+                    return new BadRequestWithHttpError(Request, ErrorCode.MedicalNoteNotFoundWithThisMEN);
                 }
             }
 
@@ -46,8 +42,7 @@ namespace MediNote.WebApiControllers
 
                 if (User.Identity.Name != doctor.DoctorNIN)
                 {
-                    // TODO: Add message
-                    return Unauthorized();
+                    return new BadRequestWithHttpError(Request, ErrorCode.MedicalNoteNotFoundWithThisMEN);
                 }
             }
 
@@ -61,8 +56,7 @@ namespace MediNote.WebApiControllers
         {
             if (User.Identity.Name != studentNIN && User.IsInRole("Student"))
             {
-                //TODO: Add message
-                return Unauthorized();
+                return new UnauthorizedWithHttpError(Request, ErrorCode.StudentsCanCheckOnlyMedicalNotesWithTheirNIN);
             }
 
             var medicalNotes = medicalNoteService.GetMedicalNotesByStudentNIN(studentNIN);
@@ -78,15 +72,14 @@ namespace MediNote.WebApiControllers
         {
             if (User.Identity.Name != basicMedicalNoteInfo.DoctorNIN && !User.IsInRole("Admin"))
             {
-                //TODO : Add message
-                return Unauthorized();
+                return new UnauthorizedWithHttpError(Request, ErrorCode.DoctorsCanOnlyAddMedicalNotesWithTheirNIN);
             }
 
             var medNoteWithSameMEN = medicalNoteService.GetMedicalNoteByMEN(basicMedicalNoteInfo.MEN);
 
             if (medNoteWithSameMEN != null)
             {
-                return new BadRequestWithMessageResult("MEN already taken");
+                return new BadRequestWithHttpError(Request, ErrorCode.MedicalNoteAlreadyExistsWithThisMEN);
             }
 
             var doctorsService = new DoctorService();
@@ -94,7 +87,7 @@ namespace MediNote.WebApiControllers
 
             if (doctor == null)
             {
-                return new BadRequestWithMessageResult("Doctor not found with this NIN");
+                return new BadRequestWithHttpError(Request, ErrorCode.DoctorNotFoundWithThisNIN);
             }
 
             var studentService = new StudentService();
@@ -102,7 +95,7 @@ namespace MediNote.WebApiControllers
 
             if (student == null)
             {
-                return new BadRequestWithMessageResult("Student not found with this NIN");
+                return new BadRequestWithHttpError(Request, ErrorCode.StudentNotFoundWithThisNIN);
             }
 
             var institutionService = new InstitutionService();
@@ -114,6 +107,11 @@ namespace MediNote.WebApiControllers
             }
 
             institution = institutionService.GetInstitutionByName(basicMedicalNoteInfo.InstitutionName);
+
+            if (institution == null)
+            {
+                return InternalServerError();
+            }
 
             var medicalNoteDTO = new MedicalNoteDTO()
             {
